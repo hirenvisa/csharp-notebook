@@ -60,6 +60,27 @@ public class UnitTest1
         Assert.Equal(expectedWays, actualWays);
     }
 
+    [Fact]
+    public void Leaderboard_displays_top_k_players()
+    {
+        // Arrange
+        int k = 3;
+        List<Player> players = new List<Player>()
+        {
+            new Player() { Name = "Sample1", Score = 60 },
+            new Player() { Name = "Sample2", Score = 70 },
+            new Player() { Name = "Sample3", Score = 80 },
+            new Player() { Name = "Sample6", Score = 501 },
+        };
+
+        // Act
+        var topPlayers = LeaderBoard.GetTopKPlayers(players, k);
+
+        // Assert
+        Assert.Equal(3, topPlayers.Count);
+        Assert.Equal(501, topPlayers[0].Score);
+    }
+
     #endregion
 
     #region "Helper methods"
@@ -104,7 +125,8 @@ public class UnitTest1
         foreach (var score in validScores)
         {
             currentScore.Add(score);
-            FindPossibleWaysToWinGameAndEndingWithDouble(target - score.Total, maxDarts, possibleWays, validScores, currentScore);
+            FindPossibleWaysToWinGameAndEndingWithDouble(target - score.Total, maxDarts, possibleWays, validScores,
+                currentScore);
             currentScore.RemoveAt(currentScore.Count - 1);
         }
     }
